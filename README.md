@@ -224,3 +224,8 @@ Add this line to the end of the file right before `exit 0`:
 ```bash
 /usr/local/bin/update-dnsmasq.sh
 ```
+
+## Development Resources:
+- [VMI File Structure](https://mc.pp.se/dc/vms/vmi.html)
+- [VMI File Header](https://mc.pp.se/dc/vms/fileheader.html)
+- [ICONDATA_VMS](https://mc.pp.se/dc/vms/icondata.html)

@@ -4,14 +4,14 @@ header('Content-Type: text/html; charset=Shift-JIS');
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Virtual VMU</title>
+    <title>Cloud VMU</title>
     <meta http-equiv="Content-Type" content="text/html; charset=Shift-JIS">
 </head>
 <body cellpadding="0" cellspacing="0" bgcolor="#f0ffff">
     <table width="598" border="0" cellspacing="0" cellpadding="4">
         <tr>
             <td valign="top">
-                <h1><font size="7">Virtual VMU</font></h1>
+                <h1><font size="7">Cloud VMU</font></h1>
             </td>
             <td valign="top" width="100">
                 <table border="0" cellspacing="4" cellpadding="0" bgcolor="#dcdcdc">

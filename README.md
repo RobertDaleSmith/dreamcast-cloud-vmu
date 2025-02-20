@@ -2,6 +2,30 @@ Cloud VMU
 =========
 Cloud VMU is a self hosted VMU file upload/download PHP web app designed specifically for use by the legacy Sega Dreamcast Web Browser. You can host it locally or on a remote PHP server (like Hostgator). You can also host it locally on a DreamPi and access it via http://vmu.local.
 
+# Local Docker Setup
+
+## 1. Install Docker
+
+https://www.docker.com/
+
+## 2. Build and Run the Docker Container
+
+```bash
+docker-compose up --build
+```
+
+## 3. Access the Web App from computer
+
+```bash
+http://localhost
+```
+
+or access the Web App from Dreamcast
+
+```bash
+http://<Computer-IP>
+```
+
 # DreamPi Setup (manual)
 
 ## 1. SSH into Your DreamPi

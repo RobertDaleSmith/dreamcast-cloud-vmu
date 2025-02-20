@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./uploads:/var/www/html/uploads
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html

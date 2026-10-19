@@ -1,0 +1,17 @@
+# Uploaded saves are data only: serve .vmi/.vms/.gif, never run anything here.
+Options -Indexes -ExecCGI
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .phar .cgi .pl .py
+SetHandler none
+<IfModule mod_authz_core.c>
+  Require all denied
+  <FilesMatch "\.(?i:vmi|vms|gif)$">
+    Require all granted
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order deny,allow
+  Deny from all
+  <FilesMatch "\.(?i:vmi|vms|gif)$">
+    Allow from all
+  </FilesMatch>
+</IfModule>

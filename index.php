@@ -1,5 +1,8 @@
 <?php
+require_once __DIR__ . '/auth.php';
 header('Content-Type: text/html; charset=Shift-JIS');
+$canDelete = cloudvmu_can_delete();
+$csrfToken = $canDelete ? cloudvmu_csrf_token() : '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -352,15 +355,15 @@ header('Content-Type: text/html; charset=Shift-JIS');
             echo "<table width='598' cellspacing='0' cellpadding='2' border='0'$bgColor><tr>";
             // First column - Image
             echo "<td width='64' valign='top'>";
-            echo "<a href='uploads/$file'><img src='$gifPath' width='64' height='64' alt='Icon' border='0' style='image-rendering: pixelated;'></a>";
+            echo "<a href='uploads/" . h($file) . "'><img src='" . h($gifPath) . "' width='64' height='64' alt='Icon' border='0' style='image-rendering: pixelated;'></a>";
             echo "</td>";
             // Second column - Nested table with info
             echo "<td><table width='100%' cellspacing='0' cellpadding='0'>";
             // Row 1 - Long Description or Short Description for icons, plus type
-            echo "<tr><td width='100%'><font size='2'>" . ($isIconData ? $shortDescription : $longDescription) . "</font></td>";
+            echo "<tr><td width='100%'><font size='2'>" . h($isIconData ? $shortDescription : $longDescription) . "</font></td>";
             echo "<td width='40' align='right' valign='top'><font size='2'>$typeText</font></td></tr>";
             // Row 2 - Filename (and Short Description for non-icons)
-            echo "<tr><td><font size='2'><strong>$originalname</strong>" . ($isIconData ? "" : "&nbsp; $shortDescription") . "</font></td></tr>";
+            echo "<tr><td><font size='2'><strong>" . h($originalname) . "</strong>" . ($isIconData ? "" : "&nbsp; " . h($shortDescription)) . "</font></td></tr>";
             // Row 3 - Date/Time
             echo "<tr><td><font size='2'>$month/$day/$year $hour:$minute ($dayName) $blockSize block(s)</font></td></tr>";
             echo "</table></td>";
@@ -372,24 +375,30 @@ header('Content-Type: text/html; charset=Shift-JIS');
             echo "<tr><td align='center'>";
             echo "<input type='button' value='Save' size='50' onclick='window.location.href=\"uploads/$file\"'>";
             echo "</td></tr>";
-            // Delete button row
-            echo "<tr><td>";
-            echo "<form action='delete.php' method='post' style='margin:0;' onsubmit='return confirmDelete()'>";
-            echo "<input type='hidden' name='file' value='$file'>";
-            echo "<input type='submit' value='Delete'>";
-            echo "</form>";
-            echo "</td></tr>";
+            // Delete button row (only for admins / local network, see auth.php)
+            if ($canDelete) {
+                echo "<tr><td>";
+                echo "<form action='delete.php' method='post' style='margin:0;' onsubmit='return confirmDelete()'>";
+                echo "<input type='hidden' name='file' value='" . h($file) . "'>";
+                echo "<input type='hidden' name='token' value='" . h($csrfToken) . "'>";
+                echo "<input type='submit' value='Delete'>";
+                echo "</form>";
+                echo "</td></tr>";
+            }
             echo "</table>";
             echo "</td>";
             echo "</tr></table>";
             $tableCounter++; // Increment counter after each table
         } else {
             // Display the link with the originalname only if no .vms file is found
-            echo "<li><a href='uploads/$file'>$originalname</a></li>";
+            echo "<li><a href='uploads/" . h($file) . "'>" . h($originalname) . "</a></li>";
         }
     }
     ?>
     <br><br>&nbsp;
+    <?php if (cloudvmu_password_configured()) { ?>
+    <p><font size="1"><?php echo !empty($_SESSION['cloudvmu_admin']) ? '<a href="login.php?logout=1">Log out</a>' : '<a href="login.php">Admin</a>'; ?></font></p>
+    <?php } ?>
     <script>
         function confirmDelete() {
             if (confirm("Are you sure you want to delete this file?")) {

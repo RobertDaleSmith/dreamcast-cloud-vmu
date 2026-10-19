@@ -229,3 +229,14 @@ Add this line to the end of the file right before `exit 0`:
 - [VMI File Structure](https://mc.pp.se/dc/vms/vmi.html)
 - [VMI File Header](https://mc.pp.se/dc/vms/fileheader.html)
 - [ICONDATA_VMS](https://mc.pp.se/dc/vms/icondata.html)
+# Deleting Saves
+
+On a LAN or DreamPi install, saves can be deleted from any device on the local network.
+
+On a public host, deleting is disabled until you set an admin password. Copy `config.example.php` to `config.php` (it is gitignored) and paste in a hash:
+
+```bash
+php -r 'echo password_hash("your-password", PASSWORD_DEFAULT), "\n";'
+```
+
+Then log in through the **Admin** link at the bottom of the page to see the Delete buttons.

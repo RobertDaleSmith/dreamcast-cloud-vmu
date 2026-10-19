@@ -1,4 +1,7 @@
 # Ignore everything in uploads directory
 uploads/*
 # Except the .gitkeep file
-!uploads/.gitkeep 
+!uploads/.gitkeep
+!uploads/.htaccess 
+# Server-local secrets (admin password hash)
+config.php

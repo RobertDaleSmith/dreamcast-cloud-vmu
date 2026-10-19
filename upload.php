@@ -1,6 +1,7 @@
 <?php
-// Turn on error reporting for debugging.
-ini_set('display_errors', 1);
+// Log errors, never show them to visitors (they leak server paths).
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
 // Send content-type header.
@@ -93,7 +94,9 @@ function getTranslationTable() {
 // In the Perl script, cgi-lib.pl was used to populate %in. Here we use $_POST.
 $in_upfile = isset($_POST['vmFile']) ? $_POST['vmFile'] : "";
 
-list($queryString, $base64Data) = explode("\n", $in_upfile, 2);
+$parts = explode("\n", $in_upfile, 2);
+$queryString = $parts[0];
+$base64Data = isset($parts[1]) ? $parts[1] : "";
 parse_str($queryString, $params);
 
 $filename = isset($params['filename']) ? $params['filename'] : 'default.vmu';
@@ -195,6 +198,9 @@ if ($validname && $doesnotexist && $fileselected && $validFormat && $validSize) 
     // error_log("VMU Header contents:");
     // error_log(print_r($vmuhead, true));
     // error_log("Raw header: " . $header);
+
+    // Default to the current time when the browser sends no timestamp.
+    list($year, $month, $date, $hr, $min, $sec, $day) = array_map('intval', explode(' ', date('Y n j G i s w')));
 
     // (Optional) Parse the date information from the header if present.
     if (isset($vmuhead['tm']) && preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d)/", $vmuhead['tm'], $matches)) {
